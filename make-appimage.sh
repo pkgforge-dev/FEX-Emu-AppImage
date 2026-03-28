@@ -3,22 +3,24 @@
 set -eu
 
 ARCH=$(uname -m)
-VERSION=$(pacman -Q PACKAGENAME | awk '{print $2; exit}') # example command to get version of application here
-export ARCH VERSION
+export ARCH
 export OUTPATH=./dist
-export ADD_HOOKS="self-updater.bg.hook"
+export ADD_HOOKS="self-updater.hook"
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
-export ICON=PATH_OR_URL_TO_ICON
-export DESKTOP=PATH_OR_URL_TO_DESKTOP_ENTRY
+export ICON=https://raw.githubusercontent.com/FEX-Emu/FEX/refs/heads/main/Source/Tools/FEXConfig/icon.png
+export DESKTOP=DUMMY
+export MAIN_BIN=FEX
+export DEPLOY_VULKAN=1
+export DEPLOY_PIPEWIRE=1
+export CROSS_LIBC_DLOPEN=0
 
 # Deploy dependencies
-quick-sharun /PATH/TO/BINARY_AND_LIBRARIES_HERE
-
-# Additional changes can be done in between here
+quick-sharun /usr/bin/FEX* /usr/bin/bash /usr/bin/curl /usr/bin/unsquashfs /usr/bin/squashfuse /usr/bin/*erofs* /usr/lib/libFEXCore.so /usr/share/fex-emu/* #/usr/bin/erofsfuse /usr/share/binfmts/FEX* /var/lib/binfmts/FEX*
+#echo 'SHARUN_WORKING_DIR=${SHARUN_DIR}/bin' >> ./AppDir/.env
 
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
 
 # Test the app for 12 seconds, if the test fails due to the app
 # having issues running in the CI use --simple-test instead
-quick-sharun --test ./dist/*.AppImage
+quick-sharun --simple-test ./dist/*.AppImage
