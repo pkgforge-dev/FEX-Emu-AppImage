@@ -14,10 +14,8 @@ export DEPLOY_VULKAN=1
 export DEPLOY_PIPEWIRE=1
 
 # Deploy dependencies
-quick-sharun /usr/bin/FEX* /usr/bin/bash /usr/bin/curl /usr/bin/unsquashfs /usr/bin/squashfuse /usr/bin/erofsfuse /usr/lib/libFEXCore.so /usr/share/fex-emu/* #/usr/share/binfmts/FEX* /var/lib/binfmts/FEX*
+quick-sharun /usr/bin/FEX* /usr/bin/bash /usr/bin/curl /usr/bin/unsquashfs /usr/bin/squashfuse /usr/bin/*erofs* /usr/lib/libFEXCore.so /usr/share/fex-emu/* #/usr/bin/erofsfuse /usr/share/binfmts/FEX* /var/lib/binfmts/FEX*
 #echo 'SHARUN_WORKING_DIR=${SHARUN_DIR}/bin' >> ./AppDir/.env
-
-# Additional changes can be done in between here
 
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
